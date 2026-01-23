@@ -8,3 +8,4 @@ def fizz_buzz(n):
             print("Buzz")
         else:
             print(i)
+fizz_buzz(17)

@@ -1,2 +1,2 @@
-numbers = list(range(18, 0, -4))
+numbers = list(range(18, -2, -4))
 print(numbers)

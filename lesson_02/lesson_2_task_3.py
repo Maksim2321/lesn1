@@ -1,3 +1,5 @@
+import math
+
 def square(side):
-    return side * side
-print(square(10)) 
+    area = side * side
+    return math.ceil(area) if side != int(side) else area

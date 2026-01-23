@@ -1,4 +1,3 @@
-month = int(input("Введите номер месяца: "))
 def month_to_season(month):
     if month in (12, 1, 2):
         return "Зима"
@@ -12,5 +11,4 @@ def month_to_season(month):
         return "Некорректный номер месяца"
 
 
-result = month_to_season(month)
-print(result)
+print(month_to_season(2))
