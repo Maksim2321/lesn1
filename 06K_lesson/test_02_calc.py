@@ -15,7 +15,7 @@ driver.get("https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html"
 
 locator = driver.find_element(By.CSS_SELECTOR, "#delay")
 locator.send_keys(Keys.BACKSPACE)
-locator.send_keys("50")
+locator.send_keys("45")
 
 seven = driver.find_element(By.XPATH, "//span[text()='7']",)
 seven.click()
