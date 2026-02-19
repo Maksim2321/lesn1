@@ -8,29 +8,25 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 
 
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-waiter = WebDriverWait(driver,50)
+def test_form_sibmission():
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
-driver.get("https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html")
+    driver.get("https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html")
 
-locator = driver.find_element(By.CSS_SELECTOR, "#delay")
-locator.send_keys(Keys.BACKSPACE)
-locator.send_keys("45")
+    locator = driver.find_element(By.CSS_SELECTOR, "#delay")
+    locator.send_keys(Keys.BACKSPACE)
+    locator.send_keys("45")
 
-seven = driver.find_element(By.XPATH, "//span[text()='7']",)
-seven.click()
-plus = driver.find_element(By.XPATH, "//span[text()='+']")
-plus.click()
-eight = driver.find_element(By.XPATH, "//span[text()='8']")
-eight.click()
-equals = driver.find_element(By.XPATH, "//span[text()='=']")
-equals.click()
+    seven = driver.find_element(By.XPATH, "//span[text()='7']",).click()
+    plus = driver.find_element(By.XPATH, "//span[text()='+']").click()
+    eight = driver.find_element(By.XPATH, "//span[text()='8']").click()
+    equals = driver.find_element(By.XPATH, "//span[text()='=']").click()
 
-waiter.until(
+    waiter = WebDriverWait(driver,50).until(
     EC.text_to_be_present_in_element((By.CSS_SELECTOR,".screen"), "15")
-)
-resault = driver.find_element(By.CSS_SELECTOR, ".screen").text 
+    )
+    resault = driver.find_element(By.CSS_SELECTOR, ".screen").text 
 
-print("результат:" + resault)
+    print("результат:" + resault)
 
-driver.quit()
+    driver.quit()
