@@ -8,13 +8,15 @@ from selenium.webdriver.common.by import By
 def test_form_submission():
 
     driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
-    waiter = WebDriverWait(driver,15)
-
     driver.get("https://www.saucedemo.com/")
 
-    user = driver.find_element(By.CSS_SELECTOR, "[placeholder=Имя пользователя]").send_keys("standard_user")
-    password = driver.find_element(By.CSS_SELECTOR, "[type=password]").send_keys("secret_sauce")
-    login = driver.find_element(By.CSS_SELECTOR, "[id=login-button]")
+    driver.get("https://www.saucedemo.com/")
+    driver.maximize_window()
+    driver.find_element(By.ID, "user-name").send_keys("standard_user")
+    driver.find_element(By.ID, "password").send_keys("secret_sauce")
+    waiter = WebDriverWait(driver, 15)
+    waiter.until(EC.element_to_be_clickable((By.ID, "login-button")))
+    driver.find_element(By.ID, "login-button").click()
     add_items=[
     "Sauce Labs Backpack",
     "Sauce Labs Bolt T-Shirt",
