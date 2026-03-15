@@ -1,51 +1,72 @@
+import pytest
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.common.keys import Keys
 
-def test_form_submission():
 
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
-    driver.get("https://www.saucedemo.com/")
-
-    driver.get("https://www.saucedemo.com/")
+@pytest.fixture(scope="module")
+def driver():
+    firefox_options = Options()
+    driver = webdriver.Firefox(
+        options=firefox_options, service=webdriver.firefox.service.Service(
+            GeckoDriverManager().install()))
     driver.maximize_window()
-    driver.find_element(By.ID, "user-name").send_keys("standard_user")
-    driver.find_element(By.ID, "password").send_keys("secret_sauce")
-    waiter = WebDriverWait(driver, 15)
-    waiter.until(EC.element_to_be_clickable((By.ID, "login-button")))
-    driver.find_element(By.ID, "login-button").click()
-    add_items=[
-    "Sauce Labs Backpack",
-    "Sauce Labs Bolt T-Shirt",
-    "Sauce Labs Bolt T-Shirt"
-    ]
-
-    for item_name in add_items:
-        add_button = waiter.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, f"//div[text()='{item_name}']/ancestor::div[@class='inventory_item']//button")
-        )
-    )
-
-    shpopping_card = driver.find_element(By.CLASS_NAME, "shopping_cart_link")
-    shpopping_card.click
-
-    waiter.until(
-    EC.element_to_be_clickable((By.ID, "checkout"))
-    ).click
-
-    name=driver.find_element(By.CSS_SELECTOR, "first-name").send_keys("Максим")
-    last_name=driver.find_element(By.CSS_SELECTOR, "last-name").send_keys("Травников")
-    code=driver.find_element(By.CSS_SELECTOR, "postal-code").send_keys("197372")
-
-    total_price = waiter.until(
-        EC.visibility_of_element_located(By.CSS_SELECTOR, "[class=summary_total_label]")
-    )
-    total_text = total_price.text
-
-    assert total_text == "Итого: 58.29$", f"Ожидание: '58.29$', got '{total_text}'"
-
+    driver.implicitly_wait(5)
+    driver.set_script_timeout(10)
+    yield driver
     driver.quit()
+
+
+def test_shopping_flow(driver):
+
+    driver.get('http://www.saucedemo.com/')
+    username_field = driver.find_element(By.ID, 'user-name')
+    username_field.send_keys('standard_user')
+    password_field = driver.find_element(By.ID, 'password')
+    password_field.send_keys('secret_sauce', Keys.ENTER)
+
+    WebDriverWait(driver, 10).until(EC.url_contains('/inventory.html'))
+    backpack_btn = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//button[@id='add-to-cart-sauce-labs-backpack']"))
+    )
+    backpack_btn.click()
+
+    t_shirt_btn = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//button[@id='add-to-cart-sauce-labs-bolt-t-shirt']"))
+    )
+
+    t_shirt_btn.click()
+    onesie_btn = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//button[@id='add-to-cart-sauce-labs-onesie']"))
+    )
+    onesie_btn.click()
+
+    cart_icon = driver.find_element(By.CLASS_NAME, 'shopping_cart_link')
+    cart_icon.click()
+
+    checkout_button = driver.find_element(By.ID, 'checkout')
+    checkout_button.click()
+
+    first_name_input = driver.find_element(By.ID, 'first-name')
+    first_name_input.send_keys('Мария')
+    last_name_input = driver.find_element(By.ID, 'last-name')
+    last_name_input.send_keys('Французова')
+    postal_code_input = driver.find_element(By.ID, 'postal-code')
+    postal_code_input.send_keys('12345')
+    continue_button = driver.find_element(By.ID, 'continue')
+    continue_button.click()
+
+    total_amount_text = driver.find_element(
+        By.CLASS_NAME, 'summary_total_label').text
+    total_amount = float(total_amount_text.split('$')[1])
+
+    assert total_amount == 58.29, (
+        f"Итоговая сумма должна быть $58.29, но указана {total_amount}"
+    )
