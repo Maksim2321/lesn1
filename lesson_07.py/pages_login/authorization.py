@@ -9,9 +9,10 @@ from selenium.webdriver.common.keys import Keys
 class auth:
     def __init__(self,browser):
         self._driver = browser
+    def get(self):
         self._driver.get('http://www.saucedemo.com/')
 
-    def test_shopping_flow(self):
+    def login(self):
         self._driver.find_element(By.ID, 'user-name')
         self._driver.send_keys('standard_user')
         self._driver.find_element(By.ID, 'password')

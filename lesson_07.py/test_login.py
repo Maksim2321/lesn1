@@ -9,30 +9,26 @@ from pages_login.authorization import auth
 from pages_login.card_link import cardLink
 from pages_login.add_to_card import add_card
 from pages_login.information import info
-from pages_login.total import total
 
 def test_shopping_flow():
     browser = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
 
     authorize = auth(browser)
-    authorize.test_shopping_flow()
+    authorize.get()
+    authorize.login()
 
     addToCard = add_card(browser)
     addToCard.add_to_card()
     addToCard.to_card_link()
 
     card_link = cardLink(browser)
+    card_link.get_card()
     card_link.checkuot()
 
     inform = info(browser)
     inform.info()
-
-    ttl = total(browser)
-    txt = ttl.total_amount()
+    to_be = inform.total()
 
 
 
-    assert txt == 58.29, (
-        f"Итоговая сумма должна быть $58.29, но указана {txt}"
-    )
-    browser.quit()
+    assert to_be == 58.29

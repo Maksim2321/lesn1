@@ -4,8 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class add_card:
-    def __init__(self,browser):
-       self._driver = browser
+    def __init__(self,driver):
+       self._driver = driver
     
     def add_to_card(self):
             WebDriverWait(self._driver, 10).until(EC.url_contains('/inventory.html'))

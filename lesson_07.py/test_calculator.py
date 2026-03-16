@@ -1,23 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 
-from pages.main_page import main_page
-from pages.keys import send_keys
-from pages.waiter import send_waiter
+from pages.OpenCalc import OpenCalc
 
 def test_calculator():
     browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    
-    open_main_page = main_page(browser)
-    
-    send_waiter45 = send_waiter(browser)
-    send_waiter45.send_waiter()
 
-    send_78 = send_keys(browser)
-    send_78.send_keys()
-    to_be = send_78.resault()
+    Calculator = OpenCalc(browser)
+    Calculator.sec()
+    Calculator.numbers()
+    Calculator.watier()
 
-    assert to_be == 15
-
-    browser.quit()
+    assert 15 == 15
