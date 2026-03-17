@@ -29,5 +29,7 @@ class OpenCalc:
         EC.text_to_be_present_in_element((By.CSS_SELECTOR,".screen"), "15")
         )
         txt = self._driver.find_element(By.CSS_SELECTOR, ".screen").text
+
+        return int(txt)
     
     

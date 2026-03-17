@@ -13,7 +13,7 @@ class auth:
         self._driver.get('http://www.saucedemo.com/')
 
     def login(self):
-        self._driver.find_element(By.ID, 'user-name')
-        self._driver.send_keys('standard_user')
-        self._driver.find_element(By.ID, 'password')
-        self._driver.send_keys('secret_sauce', Keys.ENTER)
+        username_field = self._driver.find_element(By.ID, 'user-name')
+        username_field.send_keys('standard_user')
+        password = self._driver.find_element(By.ID, 'password')
+        password.send_keys('secret_sauce', Keys.ENTER)

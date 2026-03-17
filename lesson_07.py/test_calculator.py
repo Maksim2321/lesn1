@@ -14,6 +14,6 @@ def test_calculator():
     Calculator = OpenCalc(browser)
     Calculator.sec()
     Calculator.numbers()
-    Calculator.watier()
+    resault = Calculator.watier()
 
-    assert 15 == 15
+    assert resault == 15
