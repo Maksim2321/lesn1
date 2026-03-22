@@ -3,7 +3,7 @@ import pytest
 import requests
 
 bURL = "https://ru.yougile.com/"
-token = "Dtkg8IoLcV0E5DCqVepjez0HorG2HU165lOFhceMbn4G2p7CuccjYxiexJ3MxTwI"
+token = ""
 headers = {
     "Authorization": f"Bearer {token}",
     "Content-Type": "application/json"
