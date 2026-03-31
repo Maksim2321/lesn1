@@ -33,7 +33,7 @@ def test_update(db_engine):
         ).fetchone()
 
         assert result is not None
-        assert result == '123123'
+        assert result[0] == 123123
 
 def test_delete(db_engine):
     with db_engine.connect() as conn:
