@@ -58,7 +58,7 @@ def test_saucedemo_purchase(driver):
 
     with allure.step("Заполняем данные о заказчике, Имя, Фамилия и ИНДКС"):
         checkout_page = CheckoutPage(driver)
-        checkout_page.fill_form("Анастасия", "Александрова", "123456")
+        checkout_page.fill_form("Максим", "Травников", "123456")
 
     with allure.step("Нажать кнопку Continue - продолжить"):
         checkout_page.continue_checkout()
