@@ -39,11 +39,11 @@ def test_saucedemo_purchase(driver):
     with allure.step("Открываем главную страницу магазина"):
         driver.get("https://www.saucedemo.com/")
 
-    with allure.step("Создаём страницу, где можно ввести логин и пароль, и выполнить вход в аккаунт"):
+    with allure.step("Создаём страницу и выполняем вход в аккаунт"):
         login_page = LoginPage(driver)
         login_page.login("standard_user", "secret_sauce")
 
-    with allure.step("Создаём страницу каталога с товарами и добовляем их в корзину"):
+    with allure.step("Создаём страницу каталога с добовляем в корзину"):
         inventory_page = InventoryPage(driver)
         inventory_page.add_product_by_id("add-to-cart-sauce-labs-backpack")
         inventory_page.add_product_by_id("add-to-cart-sauce-labs-bolt-t-shirt")
@@ -52,7 +52,7 @@ def test_saucedemo_purchase(driver):
     with allure.step("Переходим в корзину"):
         inventory_page.go_to_cart()
 
-    with allure.step("Создаём страницу корзины и нажимаем Checkout - оформить заказ"):
+    with allure.step("Создаём страницу корзины и нажимаем Checkout"):
         cart_page = CartPage(driver)
         cart_page.checkout()
 
