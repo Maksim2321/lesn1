@@ -50,7 +50,7 @@ def test_slow_calculator(driver):
         calculator.click_button("8")
         calculator.click_button("=")
 
-    with allure.step("Ожидаем начала отсчёта задержки в 45 секунд 15 сек."):
+    with allure.step("Ожидаем начала отсчёта задержки в 45 секунд 15 сек. (с запасом времени)"):
         calculator.wait_for_result("15", timeout=46)
 
     with allure.step("Получаем результаты вычисления"):
